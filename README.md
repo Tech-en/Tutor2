@@ -1,5 +1,7 @@
 # TutorHub
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+
 A tutoring platform with a Node.js/Express/MongoDB backend and a static HTML/JS frontend.
 
 ```
