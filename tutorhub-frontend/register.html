@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Register — TutorHub</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 30px 20px;
+    }
+
+    .card {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.15);
+      padding: 45px 40px;
+      width: 100%;
+      max-width: 500px;
+    }
+
+    .logo    { font-size: 28px; font-weight: bold; color: #667eea; text-align: center; margin-bottom: 6px; }
+    .subtitle { text-align: center; color: #666; margin-bottom: 32px; font-size: 15px; }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    @media (max-width: 480px) { .form-row { grid-template-columns: 1fr; } }
+
+    .form-group { margin-bottom: 18px; }
+
+    label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 600;
+      font-size: 14px;
+      color: #333;
+    }
+    .label-opt { font-weight: 400; color: #999; font-size: 12px; margin-left: 4px; }
+
+    input, select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 15px;
+      font-family: inherit;
+      transition: border-color 0.2s;
+      outline: none;
+    }
+    input:focus, select:focus { border-color: #667eea; box-shadow: 0 0 0 3px rgba(102,126,234,0.12); }
+    input.error, select.error { border-color: #e53e3e; }
+
+    .field-error { display: block; color: #e53e3e; font-size: 13px; margin-top: 5px; }
+
+    /* Password strength bar */
+    .strength-bar-wrap { height: 4px; background: #eee; border-radius: 2px; margin-top: 8px; overflow: hidden; }
+    .strength-bar      { height: 100%; width: 0; border-radius: 2px; transition: width 0.3s, background 0.3s; }
+    .strength-label    { font-size: 12px; color: #999; margin-top: 4px; }
+
+    /* Terms checkbox */
+    .terms-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 20px; }
+    .terms-row input[type="checkbox"] { margin-top: 2px; flex-shrink: 0; }
+    .terms-row span { font-size: 14px; color: #555; line-height: 1.5; }
+    .terms-row a { color: #667eea; text-decoration: none; }
+    .terms-row a:hover { text-decoration: underline; }
+
+    .btn-submit {
+      width: 100%;
+      padding: 13px;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+      transition: opacity 0.2s, transform 0.2s;
+    }
+    .btn-submit:hover:not(:disabled) { opacity: 0.92; transform: translateY(-1px); }
+    .btn-submit:disabled { opacity: 0.65; cursor: not-allowed; }
+
+    .spinner {
+      width: 18px; height: 18px;
+      border: 3px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      display: none;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .divider { text-align: center; color: #aaa; margin: 22px 0; font-size: 13px; position: relative; }
+    .divider::before, .divider::after {
+      content: ''; position: absolute; top: 50%; width: 42%; height: 1px; background: #e5e5e5;
+    }
+    .divider::before { left: 0; } .divider::after { right: 0; }
+
+    .footer-text { text-align: center; font-size: 14px; color: #666; margin-top: 18px; }
+    .footer-text a { color: #667eea; font-weight: 600; text-decoration: none; }
+    .footer-text a:hover { text-decoration: underline; }
+
+    .back-link { display: block; text-align: center; margin-top: 14px; font-size: 13px; color: #999; text-decoration: none; }
+    .back-link:hover { color: #667eea; }
+
+    .alert {
+      padding: 12px 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      font-size: 14px;
+      display: none;
+    }
+    .alert-error   { background: #fff5f5; color: #c53030; border: 1px solid #fed7d7; }
+    .alert-success { background: #f0fff4; color: #276749; border: 1px solid #c6f6d5; }
+  </style>
+</head>
+<body>
+
+  <div class="card">
+    <div class="logo">📚 TutorHub</div>
+    <p class="subtitle">Create your account and start learning today.</p>
+
+    <div id="alertBox" class="alert"></div>
+
+    <form id="registerForm" novalidate>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name</label>
+          <input type="text" id="firstName" name="firstName" placeholder="Jane" autocomplete="given-name" required>
+          <span class="field-error" id="firstNameErr"></span>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name</label>
+          <input type="text" id="lastName" name="lastName" placeholder="Doe" autocomplete="family-name" required>
+          <span class="field-error" id="lastNameErr"></span>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" autocomplete="email" required>
+        <span class="field-error" id="emailErr"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" placeholder="Min. 8 characters" autocomplete="new-password" required>
+        <div class="strength-bar-wrap"><div class="strength-bar" id="strengthBar"></div></div>
+        <p class="strength-label" id="strengthLabel">Password strength</p>
+        <span class="field-error" id="passwordErr"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="confirmPassword">Confirm Password</label>
+        <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Repeat your password" autocomplete="new-password" required>
+        <span class="field-error" id="confirmPasswordErr"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="phone">Phone Number <span class="label-opt">(optional)</span></label>
+        <input type="tel" id="phone" name="phone" placeholder="+1 555 123 4567" autocomplete="tel">
+        <span class="field-error" id="phoneErr"></span>
+      </div>
+
+      <div class="form-group">
+        <label for="role">I am registering as</label>
+        <select id="role" name="role">
+          <option value="student">Student — looking for help</option>
+          <option value="tutor">Tutor — offering services</option>
+        </select>
+      </div>
+
+      <div class="terms-row">
+        <input type="checkbox" id="acceptTerms">
+        <span>I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a></span>
+      </div>
+      <span class="field-error" id="termsErr" style="margin-top:-14px;display:block;margin-bottom:16px;"></span>
+
+      <button type="submit" class="btn-submit" id="submitBtn">
+        <span id="submitLabel">Create Account</span>
+        <span class="spinner" id="spinner"></span>
+      </button>
+
+    </form>
+
+    <div class="divider">OR</div>
+
+    <p class="footer-text">Already have an account? <a href="login.html">Login here</a></p>
+    <a href="dashboard.html" class="back-link">← Back to Dashboard</a>
+  </div>
+
+  <script src="js/apiService.js"></script>
+  <script src="js/auth.js"></script>
+  <script>
+    // ── Redirect if already authenticated ────────────────────────────────────
+    (function () {
+      if (typeof isAuthenticated === 'function' && isAuthenticated()) {
+        window.location.href = 'dashboard.html';
+      }
+    }());
+
+    // ── DOM refs ──────────────────────────────────────────────────────────────
+    var form            = document.getElementById('registerForm');
+    var firstNameEl     = document.getElementById('firstName');
+    var lastNameEl      = document.getElementById('lastName');
+    var emailEl         = document.getElementById('email');
+    var passwordEl      = document.getElementById('password');
+    var confirmEl       = document.getElementById('confirmPassword');
+    var phoneEl         = document.getElementById('phone');
+    var roleEl          = document.getElementById('role');
+    var termsEl         = document.getElementById('acceptTerms');
+    var submitBtn       = document.getElementById('submitBtn');
+    var submitLbl       = document.getElementById('submitLabel');
+    var spinner         = document.getElementById('spinner');
+    var alertBox        = document.getElementById('alertBox');
+    var strengthBar     = document.getElementById('strengthBar');
+    var strengthLabel   = document.getElementById('strengthLabel');
+
+    // ── Helpers ───────────────────────────────────────────────────────────────
+    function showAlert(msg, type) {
+      alertBox.textContent   = msg;
+      alertBox.className     = 'alert alert-' + (type || 'error');
+      alertBox.style.display = 'block';
+      alertBox.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    }
+
+    function fieldError(id, msg) {
+      var err = document.getElementById(id);
+      if (!err) return;
+      err.textContent = msg || '';
+      // find the nearest input/select sibling
+      var input = err.previousElementSibling;
+      if (input && (input.tagName === 'INPUT' || input.tagName === 'SELECT')) {
+        msg ? input.classList.add('error') : input.classList.remove('error');
+      }
+    }
+
+    function clearErrors() {
+      alertBox.style.display = 'none';
+      ['firstNameErr','lastNameErr','emailErr','passwordErr','confirmPasswordErr','phoneErr','termsErr']
+        .forEach(function (id) { fieldError(id, ''); });
+    }
+
+    function setLoading(on) {
+      submitBtn.disabled    = on;
+      submitLbl.textContent = on ? 'Creating account…' : 'Create Account';
+      spinner.style.display = on ? 'block' : 'none';
+    }
+
+    function isValidEmail(v)  { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v); }
+    function isValidPhone(v)  { return /^[+]?[\d\s\-().]{7,20}$/.test(v); }
+
+    // ── Password strength ─────────────────────────────────────────────────────
+    passwordEl.addEventListener('input', function () {
+      var pw  = passwordEl.value;
+      var score = 0;
+      if (pw.length >= 8)                              score += 25;
+      if (pw.length >= 12)                             score += 25;
+      if (/[a-z]/.test(pw) && /[A-Z]/.test(pw))       score += 25;
+      if (/[0-9]/.test(pw))                            score += 12;
+      if (/[^a-zA-Z0-9]/.test(pw))                    score += 13;
+
+      var color, label;
+      if (score >= 75) { color = '#48bb78'; label = 'Strong'; }
+      else if (score >= 50) { color = '#ed8936'; label = 'Medium'; }
+      else { color = '#fc8181'; label = 'Weak'; }
+
+      strengthBar.style.width      = score + '%';
+      strengthBar.style.background = color;
+      strengthLabel.textContent    = 'Strength: ' + label;
+      strengthLabel.style.color    = color;
+    });
+
+    // ── Real-time error clearing ──────────────────────────────────────────────
+    [
+      [firstNameEl, 'firstNameErr'], [lastNameEl, 'lastNameErr'],
+      [emailEl,     'emailErr'],     [passwordEl,  'passwordErr'],
+      [confirmEl,   'confirmPasswordErr'], [phoneEl, 'phoneErr']
+    ].forEach(function (pair) {
+      pair[0].addEventListener('input', function () { fieldError(pair[1], ''); });
+    });
+
+    // ── Form submit ───────────────────────────────────────────────────────────
+    form.addEventListener('submit', async function (e) {
+      e.preventDefault();
+      clearErrors();
+
+      var firstName = firstNameEl.value.trim();
+      var lastName  = lastNameEl.value.trim();
+      var email     = emailEl.value.trim();
+      var password  = passwordEl.value;
+      var confirm   = confirmEl.value;
+      var phone     = phoneEl.value.trim();
+      var role      = roleEl.value;
+      var terms     = termsEl.checked;
+      var valid     = true;
+
+      // Validation
+      if (!firstName || firstName.length < 2) { fieldError('firstNameErr', 'First name must be at least 2 characters'); valid = false; }
+      if (!lastName  || lastName.length < 2)  { fieldError('lastNameErr',  'Last name must be at least 2 characters');  valid = false; }
+      if (!email)           { fieldError('emailErr',    'Email is required');                  valid = false; }
+      else if (!isValidEmail(email))  { fieldError('emailErr', 'Enter a valid email address'); valid = false; }
+      if (!password)        { fieldError('passwordErr', 'Password is required');               valid = false; }
+      else if (password.length < 8)   { fieldError('passwordErr', 'Password must be at least 8 characters'); valid = false; }
+      if (!confirm)         { fieldError('confirmPasswordErr', 'Please confirm your password'); valid = false; }
+      else if (password !== confirm)  { fieldError('confirmPasswordErr', 'Passwords do not match'); valid = false; }
+      if (phone && !isValidPhone(phone)) { fieldError('phoneErr', 'Enter a valid phone number'); valid = false; }
+      if (!terms) { fieldError('termsErr', 'You must accept the terms and conditions'); valid = false; }
+
+      if (!valid) return;
+
+      setLoading(true);
+
+      try {
+        await register(firstName, lastName, email, password, phone, role);
+        showAlert('Account created! Redirecting to dashboard…', 'success');
+        setTimeout(function () { window.location.href = 'dashboard.html'; }, 700);
+      } catch (err) {
+        setLoading(false);
+        showAlert(err.message || 'Registration failed. Please try again.', 'error');
+      }
+    });
+  </script>
+</body>
+</html>
