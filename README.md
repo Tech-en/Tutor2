@@ -3,6 +3,7 @@
 [![CI](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml)
 [![CI (v1.0.0)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg?branch=v1.0.0)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml?query=branch%3Av1.0.0)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Open Issues](https://img.shields.io/github/issues/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/issues)
 
 A tutoring platform with a Node.js/Express/MongoDB backend and a static HTML/JS frontend.
 
