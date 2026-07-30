@@ -3,6 +3,7 @@
 [![CI](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml)
 [![CI (v1.0.0)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg?branch=v1.0.0)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml?query=branch%3Av1.0.0)
 [![Latest Release](https://img.shields.io/github/v/release/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/releases/latest)
+[![Package Version](https://img.shields.io/github/package-json/v/Tech-en/Tutor2?filename=tutorhub-backend%2Fpackage.json)](tutorhub-backend/package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Open Issues](https://img.shields.io/github/issues/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/issues)
 [![Stars](https://img.shields.io/github/stars/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/stargazers)
