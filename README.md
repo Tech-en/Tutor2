@@ -1,5 +1,6 @@
 # TutorHub
 
+[![CI](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 
 A tutoring platform with a Node.js/Express/MongoDB backend and a static HTML/JS frontend.
