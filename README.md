@@ -9,6 +9,7 @@
 [![Open Issues](https://img.shields.io/github/issues/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/issues)
 [![Stars](https://img.shields.io/github/stars/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/stargazers)
 [![Forks](https://img.shields.io/github/forks/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/network/members)
+[![Last Commit](https://img.shields.io/github/last-commit/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/commits/master)
 
 A tutoring platform with a Node.js/Express/MongoDB backend and a static HTML/JS frontend.
 
