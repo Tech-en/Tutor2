@@ -1,5 +1,6 @@
 # TutorHub
 
+[![Coverage](https://img.shields.io/badge/coverage-no%20tests-lightgrey.svg)](tutorhub-backend/coverage)
 [![CI](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml)
 [![CI (v1.0.0)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml/badge.svg?branch=v1.0.0)](https://github.com/Tech-en/Tutor2/actions/workflows/ci.yml?query=branch%3Av1.0.0)
 [![Latest Release](https://img.shields.io/github/v/release/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/releases/latest)
