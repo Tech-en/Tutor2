@@ -24,6 +24,13 @@ TutorHub/
 See [tutorhub-backend/README.md](tutorhub-backend/README.md) and
 [tutorhub-frontend/README.md](tutorhub-frontend/README.md) for full details. Quick start below.
 
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [1. Backend](#1-backend)
+- [2. Frontend](#2-frontend)
+- [Notes](#notes)
+
 ## Prerequisites
 
 - Node.js v16+
