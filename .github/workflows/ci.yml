@@ -7,6 +7,9 @@ on:
   pull_request:
     branches: [master, main]
 
+permissions:
+  contents: write
+
 jobs:
   backend:
     runs-on: ubuntu-latest
@@ -22,5 +25,47 @@ jobs:
 
       - run: npm install
 
-      - name: Run tests
-        run: npx jest --passWithNoTests
+      - name: Run tests with coverage
+        run: npx jest --coverage --passWithNoTests --coverageReporters=json-summary
+
+      - name: Update coverage badge
+        if: github.event_name == 'push' && github.ref_type == 'branch'
+        working-directory: ${{ github.workspace }}
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+
+          const summaryPath = 'tutorhub-backend/coverage/coverage-summary.json';
+          let label = 'no tests', color = 'lightgrey';
+
+          if (fs.existsSync(summaryPath)) {
+            const { total } = JSON.parse(fs.readFileSync(summaryPath, 'utf8'));
+            const pct = total.lines.pct;
+            if (typeof pct === 'number') {
+              label = `${pct.toFixed(1)}%`;
+              color = pct >= 80 ? 'brightgreen' : pct >= 50 ? 'yellow' : 'red';
+            }
+          }
+
+          const badge = `[![Coverage](https://img.shields.io/badge/coverage-${encodeURIComponent(label)}-${color}.svg)](tutorhub-backend/coverage)`;
+          const badgeLine = /\[!\[Coverage\]\([^)]*\)\]\([^)]*\)/;
+
+          let readme = fs.readFileSync('README.md', 'utf8');
+          readme = badgeLine.test(readme)
+            ? readme.replace(badgeLine, badge)
+            : readme.replace('# TutorHub\n', `# TutorHub\n\n${badge}`);
+
+          fs.writeFileSync('README.md', readme);
+          EOF
+
+      - name: Commit updated badge
+        if: github.event_name == 'push' && github.ref_type == 'branch'
+        working-directory: ${{ github.workspace }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add README.md
+          if ! git diff --cached --quiet; then
+            git commit -m "chore: update coverage badge [skip ci]"
+            git push
+          fi
