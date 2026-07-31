@@ -59,7 +59,11 @@ function maskCardNumber(number) {
 }
 
 /* ── Process payment ──────────────────────────────────────────────────────── */
-async function processPayment(orderId, paymentData) {
+// Named defaultProcessPayment (not processPayment) so this top-level function
+// declaration doesn't get hoisted onto window.processPayment and silently clobber
+// a page-specific implementation (e.g. dashboard.html's own processPayment(method)),
+// which loads earlier but would otherwise be overwritten once this deferred script runs.
+async function defaultProcessPayment(orderId, paymentData) {
   if (typeof API !== 'undefined') {
     return API.payments.processPayment({ orderId: orderId, ...paymentData });
   }
@@ -109,7 +113,9 @@ window.isValidCardNumber          = isValidCardNumber;
 window.isValidExpiryDate          = isValidExpiryDate;
 window.detectCardType             = detectCardType;
 window.maskCardNumber             = maskCardNumber;
-window.processPayment             = processPayment;
+if (typeof window.processPayment !== 'function') {
+  window.processPayment = defaultProcessPayment;
+}
 window.getMyPayments              = getMyPayments;
 window.getPaymentStats            = getPaymentStats;
 window.getPaymentStatusBadgeClass = getPaymentStatusBadgeClass;

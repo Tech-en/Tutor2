@@ -32,6 +32,7 @@ const bookingRoutes = require('./routes/bookingRoutes');
 const sessionRoutes = require('./routes/sessionRoutes');
 const paymentRoutes = require('./routes/paymentRoutes');
 const reviewRoutes = require('./routes/reviewRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 // Initialize Express app
 const app = express();
@@ -125,7 +126,8 @@ app.get(`/api/${API_VERSION}`, (req, res) => {
       bookings: `/api/${API_VERSION}/bookings`,
       sessions: `/api/${API_VERSION}/sessions`,
       payments: `/api/${API_VERSION}/payments`,
-      reviews: `/api/${API_VERSION}/reviews`
+      reviews: `/api/${API_VERSION}/reviews`,
+      orders: `/api/${API_VERSION}/orders`
     },
     documentation: 'https://docs.tutorplatform.com'
   });
@@ -141,6 +143,7 @@ app.use(`/api/${API_VERSION}/bookings`, bookingRoutes);
 app.use(`/api/${API_VERSION}/sessions`, sessionRoutes);
 app.use(`/api/${API_VERSION}/payments`, paymentRoutes);
 app.use(`/api/${API_VERSION}/reviews`, reviewRoutes);
+app.use(`/api/${API_VERSION}/orders`, orderRoutes);
 
 /**
  * ========================================
