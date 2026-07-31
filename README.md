@@ -7,6 +7,7 @@
 [![Package Version](https://img.shields.io/github/package-json/v/Tech-en/Tutor2?filename=tutorhub-backend%2Fpackage.json)](tutorhub-backend/package.json)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![Open Issues](https://img.shields.io/github/issues/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/issues)
+[![Open Pull Requests](https://img.shields.io/github/issues-pr/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/pulls)
 [![Stars](https://img.shields.io/github/stars/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/stargazers)
 [![Forks](https://img.shields.io/github/forks/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/network/members)
 [![Last Commit](https://img.shields.io/github/last-commit/Tech-en/Tutor2.svg)](https://github.com/Tech-en/Tutor2/commits/master)
